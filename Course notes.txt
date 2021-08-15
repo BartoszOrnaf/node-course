@@ -1,1 +1,122 @@
-1. npm init: Creates packet.json file
+1. npm init: Creates packet.json file.
+2. npm i express (framework for REST)
+3. npm i nodemon (runs server and checks for changes, when it finds one it automatially reloads)
+
+4.  
+"scripts": {
+    "start": "nodemon app.js"
+  }
+
+5. 
+const express = require('express');
+const app = express();
+
+6. To start listening 
+app.listen(3000);
+
+7. To create Routes:
+app.get('/', (req, res)=>{
+    res.send('We are on home')
+})
+
+8. To run server from package.json:
+npm start
+
+9. Middleware is a function that runs when you hit certian route eg.
+app.use('/post', ()=>{
+    console.log('This is a middleware running')
+})
+
+10. Install MongoDB and mongoose (MongoDB is a document type which has no relations, like a one huge object with no tables and relations etc. Mongoose is a package that gives it this abilities and makes connecting to database easy)
+npm i mongoose
+
+11. mLab allows us to make mongoDB database for free to experiment
+12. make databese on mLab and add user nad password (testUser1: testUser1)
+13. mongodb+srv://testUser1:<password>@cluster0.rkow3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority (connecting db with uri)
+
+14. To connect to DB:
+mongoose.connect('mongodb+srv://testUser1:testUser1@cluster0.rkow3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', ()=>{
+    console.log('Connected to DB!')
+})
+15. to hide user name and password add this package:
+npm install dotenv
+16. Create .env file and set env. variable
+DB_CONNECTION = mongodb+srv://testUser1:testUser1@cluster0.rkow3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority 
+in app.js: 
+require('dotenv/config');
+mongoose.connect(process.env.DB_CONNECTION, ()=>{
+    console.log('Connected to DB!')
+})
+17. make routes folder, to take routes from app.js
+const router = express.Router();
+router.get('/posts', (req, res)=>{
+    res.send('We are on posts')
+})
+
+module.exports = router;
+18. Create DB model (models folder) we define how eg. our posts stucture looks like:
+
+const mongoose = require('mongoose');
+
+const PostSchema = mongoose.Schema({
+    title: {
+        type: String,
+        require: true
+    },
+    description: {
+        type: String,
+        require: true
+    },
+    date: {
+        type: Date,
+        default: Date.now
+     }
+})
+
+module.exports = mongoose.model('Posts', PostSchema);
+19. Use postman to post posts :P
+
+20. To see our req.body we need to parse it, to do it we need to:
+npm install body-parser
+const bodyParser = require('body-parser');
+
+21. To save to request to database:
+router.post('/', (req, res) =>{
+    const post = new Post({
+        title: req.body.title,
+        description: req.body.description
+    })
+    
+    post.save()
+    .exec()
+    .then(data => {
+        res.json(data)
+    });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

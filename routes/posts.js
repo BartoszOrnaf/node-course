@@ -4,6 +4,7 @@ const Post = require('../models/Post');
 
 //Gets back all the post
 router.get('/', async (req, res) => {
+  // res.send('We are on posts');
   try {
     const posts = await Post.find();
     res.json(posts);
@@ -18,6 +19,7 @@ router.post('/', async (req, res) => {
     title: req.body.title,
     description: req.body.description,
   });
+
   try {
     const savedPost = await post.save();
     res.json(savedPost);
@@ -34,10 +36,7 @@ router.get('/:postId', async (req, res) => {
   } catch (err) {
     res.json({ message: err });
   }
-
-
 });
-
 
 //Delete post
 router.delete('/:postId', async (req, res) => {

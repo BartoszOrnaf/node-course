@@ -16,14 +16,26 @@ app.get('/', (req, res) => {
   res.send('We are on home');
 });
 
-//Connect to DB
+// Connect to DB
 mongoose.connect(
   process.env.DB_CONNECTION,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
-    console.log('Connected to DB!');
+    console.log(mongoose.connection.readyState);
   }
 );
 
+// const { MongoClient } = require('mongodb');
+// const uri = "mongodb+srv://testUser1:testUser1@cluster1.rkow3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// client.connect(err => {
+//   console.log(err)
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
+
+
+console.log(mongoose.connection.readyState);
 //How to listen to the server
-app.listen(3000);
+app.listen(4000);
